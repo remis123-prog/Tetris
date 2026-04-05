@@ -59,8 +59,7 @@ let touchVerticalTriggered = false;
 const SWIPE_THRESHOLD = 30;
 
 document.addEventListener('touchstart', (e) => {
-    // Ignore touch on buttons or overlay
-    if (e.target.closest('.btn') || e.target.closest('.ctrl-btn') || e.target.closest('.overlay')) return;
+    if (e.target.closest('.btn') || e.target.closest('.ctrl-btn') || e.target.closest('.overlay') || e.target.closest('.modal')) return;
     
     if (controlMode === 'buttons') return;
 
@@ -71,7 +70,7 @@ document.addEventListener('touchstart', (e) => {
 }, {passive: false});
 
 document.addEventListener('touchmove', (e) => {
-    if (e.target.closest('.btn') || e.target.closest('.ctrl-btn') || e.target.closest('.overlay')) return;
+    if (e.target.closest('.btn') || e.target.closest('.ctrl-btn') || e.target.closest('.overlay') || e.target.closest('.modal')) return;
     if (controlMode === 'buttons') return;
     if (game.isPaused || game.isGameOver) return;
 
@@ -110,7 +109,7 @@ document.addEventListener('touchmove', (e) => {
 }, {passive: false});
 
 document.addEventListener('touchend', (e) => {
-    if (e.target.closest('.btn') || e.target.closest('.ctrl-btn') || e.target.closest('.overlay')) return;
+    if (e.target.closest('.btn') || e.target.closest('.ctrl-btn') || e.target.closest('.overlay') || e.target.closest('.modal')) return;
     if (controlMode === 'buttons') return;
     if (game.isPaused || game.isGameOver) return;
 
