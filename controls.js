@@ -55,6 +55,7 @@ document.addEventListener('keyup', (e) => {
 let touchStartX = 0;
 let touchStartY = 0;
 let touchMoved = false;
+let touchVerticalTriggered = false;
 const SWIPE_THRESHOLD = 30;
 
 document.addEventListener('touchstart', (e) => {
@@ -66,6 +67,7 @@ document.addEventListener('touchstart', (e) => {
     touchStartX = e.touches[0].clientX;
     touchStartY = e.touches[0].clientY;
     touchMoved = false;
+    touchVerticalTriggered = false;
 }, {passive: false});
 
 document.addEventListener('touchmove', (e) => {
@@ -92,12 +94,14 @@ document.addEventListener('touchmove', (e) => {
             touchStartX = touchX; // Reset to allow continuous moving
         } else {
             // Vertical swipe
-            if (dy > 0 && dy > SWIPE_THRESHOLD * 1.5) {
-                game.hardDrop();
-                touchStartY = touchY;
-            } else if (dy < -SWIPE_THRESHOLD * 1.5) {
-                game.holdPiece();
-                touchStartY = touchY;
+            if (!touchVerticalTriggered) {
+                if (dy > 0 && dy > SWIPE_THRESHOLD * 1.5) {
+                    game.hardDrop();
+                    touchVerticalTriggered = true;
+                } else if (dy < -SWIPE_THRESHOLD * 1.5) {
+                    game.holdPiece();
+                    touchVerticalTriggered = true;
+                }
             }
         }
         if (game.onDraw) game.onDraw();

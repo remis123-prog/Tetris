@@ -18,12 +18,16 @@ function resizeCanvas() {
     const panel = document.querySelector('.left-panel');
     const isMobile = window.innerWidth <= 600;
     
-    const maxH = window.innerHeight - (isMobile ? document.getElementById('mobileControls').offsetHeight + 24 : 40);
+    // Calculate max possible height. On mobile, leave room for top info bar (~70px) and bottom controls.
+    const maxH = window.innerHeight - (isMobile ? document.getElementById('mobileControls').offsetHeight + 80 : 40);
     
     const tileH = Math.floor(maxH / ROWS);
-    const tileW = Math.floor((window.innerWidth - (panel.offsetWidth * 2 + 30)) / COLS);
+    // On mobile, panels are at the top, so board can take almost full width
+    const availableW = isMobile ? window.innerWidth - 20 : window.innerWidth - (panel.offsetWidth * 2 + 30);
+    const tileW = Math.floor(availableW / COLS);
     
-    const tileSize = Math.min(tileW, tileH, 35); 
+    // Let blocks be as large as possible without exceeding max dimensions
+    const tileSize = Math.min(tileW, tileH, 45); 
     
     canvas.width = tileSize * COLS;
     canvas.height = tileSize * ROWS;

@@ -76,9 +76,12 @@
             <div class="side-panel right-panel">
                 <div class="info-box">
                     <div class="info-label">KITAS</div>
-                    <canvas id="nextCanvas" width="100" height="200"></canvas>
+                    <canvas id="nextCanvas" width="100" height="100"></canvas>
                 </div>
-                <button id="btnPause" class="btn btn-small" onclick="togglePause()">⏸</button>
+                <button id="btnPause" class="info-box btn-pause" onclick="togglePause()">
+                    <div class="info-label">PAUZĖ</div>
+                    <div class="info-value">⏸</div>
+                </button>
             </div>
         </div>
 
@@ -86,11 +89,9 @@
         <div id="mobileControls" class="mobile-controls hidden">
             <div class="controls-row">
                 <button class="ctrl-btn" id="ctrlLeft" ontouchstart="handleControlStart('left')" ontouchend="handleControlEnd('left')">◀</button>
-                <button class="ctrl-btn ctrl-rotate" id="ctrlRotate" ontouchstart="handleControlStart('rotate')" ontouchend="handleControlEnd('rotate')">↻</button>
                 <button class="ctrl-btn" id="ctrlRight" ontouchstart="handleControlStart('right')" ontouchend="handleControlEnd('right')">▶</button>
-            </div>
-            <div class="controls-row">
                 <button class="ctrl-btn ctrl-drop" id="ctrlDrop" ontouchstart="handleControlStart('drop')" ontouchend="handleControlEnd('drop')">⬇</button>
+                <button class="ctrl-btn ctrl-rotate" id="ctrlRotate" ontouchstart="handleControlStart('rotate')" ontouchend="handleControlEnd('rotate')">↻</button>
             </div>
         </div>
     </div>
