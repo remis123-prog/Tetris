@@ -511,15 +511,13 @@ button.info-box:active {
     }
 }
     
-    /* Board uses full bottom space */
+    /* Board uses full bottom space naturally hugging the canvas */
     .board-container {
         grid-column: 1 / -1;
         grid-row: 2;
         align-self: start;
+        justify-self: center;
         margin-top: 4px;
-        width: 100%;
-        display: flex;
-        justify-content: center;
     }
     
     /* Smaller canvas for Hold/Next */
