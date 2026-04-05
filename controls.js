@@ -93,12 +93,12 @@ document.addEventListener('touchmove', (e) => {
             }
             touchStartX = touchX; // Reset to allow continuous moving
         } else {
-            // Vertical swipe
+            // Vertical swipe (padidintas jautrumo slenkstis iš 1.5 į 2.5)
             if (!touchVerticalTriggered) {
-                if (dy > 0 && dy > SWIPE_THRESHOLD * 1.5) {
+                if (dy > 0 && dy > SWIPE_THRESHOLD * 2.5) {
                     game.hardDrop();
                     touchVerticalTriggered = true;
-                } else if (dy < -SWIPE_THRESHOLD * 1.5) {
+                } else if (dy < -SWIPE_THRESHOLD * 2.5) {
                     game.holdPiece();
                     touchVerticalTriggered = true;
                 }
