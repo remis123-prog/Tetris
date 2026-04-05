@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
+    <meta name="description" content="Modernus Tetris žaidimas – spalvingas, greitas, su swipe ir mygtukų valdymu.">
+    <meta name="theme-color" content="#0a0a1a">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/svg+xml" href="icon.svg">
+    <link rel="apple-touch-icon" href="icon.svg">
+    <title>🎮 Tetris</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Start Screen -->
+    <div id="startScreen" class="screen active">
+        <div class="start-content">
+            <h1 class="game-logo">TETRIS</h1>
+            <p class="tagline">Klasikinis žaidimas · Modernus dizainas</p>
+            <button id="btnPlay" class="btn btn-play" onclick="startGame()">
+                <span class="btn-icon">▶</span> Žaisti
+            </button>
+            <button id="btnSettings" class="btn btn-settings" onclick="openSettings()">
+                <span class="btn-icon">⚙</span> Nustatymai
+            </button>
+        </div>
+    </div>
+
+    <!-- Game Screen -->
+    <div id="gameScreen" class="screen">
+        <div class="game-layout">
+            <!-- Left panel -->
+            <div class="side-panel left-panel">
+                <div class="info-box">
+                    <div class="info-label">HOLD</div>
+                    <canvas id="holdCanvas" width="100" height="100"></canvas>
+                </div>
+                <div class="info-box score-box">
+                    <div class="info-label">TAŠKAI</div>
+                    <div id="scoreDisplay" class="info-value">0</div>
+                </div>
+                <div class="info-box">
+                    <div class="info-label">LYGIS</div>
+                    <div id="levelDisplay" class="info-value">1</div>
+                </div>
+                <div class="info-box">
+                    <div class="info-label">LINIJOS</div>
+                    <div id="linesDisplay" class="info-value">0</div>
+                </div>
+            </div>
+
+            <!-- Main board -->
+            <div class="board-container">
+                <canvas id="gameCanvas"></canvas>
+                <div id="pauseOverlay" class="overlay hidden">
+                    <div class="overlay-content">
+                        <h2>⏸ Pauzė</h2>
+                        <button class="btn btn-play" onclick="togglePause()">Tęsti</button>
+                        <button class="btn btn-settings" onclick="quitToMenu()">Meniu</button>
+                    </div>
+                </div>
+                <div id="gameOverOverlay" class="overlay hidden">
+                    <div class="overlay-content">
+                        <h2>💥 Žaidimas baigtas</h2>
+                        <p class="final-score">Taškai: <span id="finalScore">0</span></p>
+                        <button class="btn btn-play" onclick="startGame()">Iš naujo</button>
+                        <button class="btn btn-settings" onclick="quitToMenu()">Meniu</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right panel -->
+            <div class="side-panel right-panel">
+                <div class="info-box">
+                    <div class="info-label">KITAS</div>
+                    <canvas id="nextCanvas" width="100" height="200"></canvas>
+                </div>
+                <button id="btnPause" class="btn btn-small" onclick="togglePause()">⏸</button>
+            </div>
+        </div>
+
+        <!-- Mobile Controls -->
+        <div id="mobileControls" class="mobile-controls hidden">
+            <div class="controls-row">
+                <button class="ctrl-btn" id="ctrlLeft" ontouchstart="handleControlStart('left')" ontouchend="handleControlEnd('left')">◀</button>
+                <button class="ctrl-btn ctrl-rotate" id="ctrlRotate" ontouchstart="handleControlStart('rotate')" ontouchend="handleControlEnd('rotate')">↻</button>
+                <button class="ctrl-btn" id="ctrlRight" ontouchstart="handleControlStart('right')" ontouchend="handleControlEnd('right')">▶</button>
+            </div>
+            <div class="controls-row">
+                <button class="ctrl-btn ctrl-drop" id="ctrlDrop" ontouchstart="handleControlStart('drop')" ontouchend="handleControlEnd('drop')">⬇</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal hidden">
+        <div class="modal-content">
+            <h2>⚙ Nustatymai</h2>
+            <div class="setting-group">
+                <label class="setting-label">Valdymo tipas</label>
+                <div class="setting-options">
+                    <button class="opt-btn active" data-control="swipe" onclick="setControlMode('swipe')">Swipe</button>
+                    <button class="opt-btn" data-control="buttons" onclick="setControlMode('buttons')">Mygtukai</button>
+                    <button class="opt-btn" data-control="mixed" onclick="setControlMode('mixed')">Mišrus</button>
+                </div>
+            </div>
+            <div class="setting-group">
+                <label class="setting-label">Garsas</label>
+                <div class="setting-options">
+                    <button class="opt-btn active" data-sound="on" onclick="toggleSound(true)">Įjungtas</button>
+                    <button class="opt-btn" data-sound="off" onclick="toggleSound(false)">Išjungtas</button>
+                </div>
+            </div>
+            <div class="setting-group">
+                <label class="setting-label">Ghost figūra</label>
+                <div class="setting-options">
+                    <button class="opt-btn active" data-ghost="on" onclick="toggleGhost(true)">Įjungta</button>
+                    <button class="opt-btn" data-ghost="off" onclick="toggleGhost(false)">Išjungta</button>
+                </div>
+            </div>
+            <button class="btn btn-play" onclick="closeSettings()">Uždaryti</button>
+        </div>
+    </div>
+
+    <script src="audio.js"></script>
+    <script src="game.js"></script>
+    <script src="controls.js"></script>
+    <script src="ui.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(registration => console.log('ServiceWorker registracija sėkminga.'))
+                    .catch(err => console.log('ServiceWorker klaida: ', err));
+            });
+        }
+    </script>
+</body>
+</html>

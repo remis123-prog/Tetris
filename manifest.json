@@ -1,0 +1,18 @@
+{
+  "name": "Tetris",
+  "short_name": "Tetris",
+  "description": "Klasikinis žaidimas, modernus dizainas.",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#0a0a1a",
+  "theme_color": "#0a0a1a",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
